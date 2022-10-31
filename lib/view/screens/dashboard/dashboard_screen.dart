@@ -14,6 +14,8 @@ import 'package:efood_multivendor/view/screens/order/order_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../first screen.dart';
+
 class DashboardScreen extends StatefulWidget {
   final int pageIndex;
   DashboardScreen({@required this.pageIndex});
@@ -38,6 +40,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _pageController = PageController(initialPage: widget.pageIndex);
 
     _screens = [
+      //FirstScreen(),
       HomeScreen(),
       FavouriteScreen(),
       CartScreen(fromNav: true),
@@ -62,11 +65,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
           _setPage(0);
           return false;
         } else {
-          if(_canExit) {
+          if (_canExit) {
             return true;
-          }else {
+          } else {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('back_press_again_to_exit'.tr, style: TextStyle(color: Colors.white)),
+              content: Text('back_press_again_to_exit'.tr,
+                  style: TextStyle(color: Colors.white)),
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.green,
               duration: Duration(seconds: 2),
@@ -82,43 +86,69 @@ class _DashboardScreenState extends State<DashboardScreen> {
       },
       child: Scaffold(
         key: _scaffoldKey,
-
-        floatingActionButton: GetBuilder<OrderController>(builder: (orderController) {
-            return ResponsiveHelper.isDesktop(context) ? SizedBox() : (orderController.isRunningOrderViewShow && (orderController.runningOrderList != null && orderController.runningOrderList.length > 0))
-            ? SizedBox.shrink() : FloatingActionButton(
-              elevation: 5,
-              backgroundColor: _pageIndex == 2 ? Theme.of(context).primaryColor : Theme.of(context).cardColor,
-              onPressed: () => _setPage(2),
-              child: CartWidget(color: _pageIndex == 2 ? Theme.of(context).cardColor : Theme.of(context).disabledColor, size: 30),
-            );
-          }
-        ),
+        floatingActionButton:
+            GetBuilder<OrderController>(builder: (orderController) {
+          return ResponsiveHelper.isDesktop(context)
+              ? SizedBox()
+              : (orderController.isRunningOrderViewShow &&
+                      (orderController.runningOrderList != null &&
+                          orderController.runningOrderList.length > 0))
+                  ? SizedBox.shrink()
+                  : FloatingActionButton(
+                      elevation: 5,
+                      backgroundColor: _pageIndex == 2
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(context).cardColor,
+                      onPressed: () => _setPage(2),
+                      child: CartWidget(
+                          color: _pageIndex == 2
+                              ? Theme.of(context).cardColor
+                              : Theme.of(context).disabledColor,
+                          size: 30),
+                    );
+        }),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-        bottomNavigationBar: ResponsiveHelper.isDesktop(context) ? SizedBox() : GetBuilder<OrderController>(builder: (orderController) {
-
-            return (orderController.isRunningOrderViewShow && (orderController.runningOrderList != null && orderController.runningOrderList.length > 0))
-            ? RunningOrderViewWidget() : BottomAppBar(
-              elevation: 5,
-              notchMargin: 5,
-              clipBehavior: Clip.antiAlias,
-              shape: CircularNotchedRectangle(),
-
-              child: Padding(
-                padding: EdgeInsets.all(Dimensions.PADDING_SIZE_EXTRA_SMALL),
-                child: Row(children: [
-                  BottomNavItem(iconData: Icons.home, isSelected: _pageIndex == 0, onTap: () => _setPage(0)),
-                  BottomNavItem(iconData: Icons.favorite, isSelected: _pageIndex == 1, onTap: () => _setPage(1)),
-                  Expanded(child: SizedBox()),
-                  BottomNavItem(iconData: Icons.shopping_bag, isSelected: _pageIndex == 3, onTap: () => _setPage(3)),
-                  BottomNavItem(iconData: Icons.menu, isSelected: _pageIndex == 4, onTap: () {
-                    Get.bottomSheet(MenuScreen(), backgroundColor: Colors.transparent, isScrollControlled: true);
-                  }),
-                ]),
-              ),
-            );
-          }
-        ),
+        bottomNavigationBar: ResponsiveHelper.isDesktop(context)
+            ? SizedBox()
+            : GetBuilder<OrderController>(builder: (orderController) {
+                return (orderController.isRunningOrderViewShow &&
+                        (orderController.runningOrderList != null &&
+                            orderController.runningOrderList.length > 0))
+                    ? RunningOrderViewWidget()
+                    : BottomAppBar(
+                        elevation: 5,
+                        notchMargin: 5,
+                        clipBehavior: Clip.antiAlias,
+                        shape: CircularNotchedRectangle(),
+                        child: Padding(
+                          padding: EdgeInsets.all(
+                              Dimensions.PADDING_SIZE_EXTRA_SMALL),
+                          child: Row(children: [
+                            BottomNavItem(
+                                iconData: Icons.home,
+                                isSelected: _pageIndex == 0,
+                                onTap: () => _setPage(0)),
+                            BottomNavItem(
+                                iconData: Icons.favorite,
+                                isSelected: _pageIndex == 1,
+                                onTap: () => _setPage(1)),
+                            Expanded(child: SizedBox()),
+                            BottomNavItem(
+                                iconData: Icons.shopping_bag,
+                                isSelected: _pageIndex == 3,
+                                onTap: () => _setPage(3)),
+                            BottomNavItem(
+                                iconData: Icons.menu,
+                                isSelected: _pageIndex == 4,
+                                onTap: () {
+                                  Get.bottomSheet(MenuScreen(),
+                                      backgroundColor: Colors.transparent,
+                                      isScrollControlled: true);
+                                }),
+                          ]),
+                        ),
+                      );
+              }),
         body: PageView.builder(
           controller: _pageController,
           itemCount: _screens.length,

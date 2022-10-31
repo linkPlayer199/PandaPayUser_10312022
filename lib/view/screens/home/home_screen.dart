@@ -65,20 +65,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  //FirstScreen frscreen = FirstScreen();
+  FirstScreen fScreen = FirstScreen();
   final ScrollController _scrollController = ScrollController();
   ConfigModel _configModel = Get.find<SplashController>().configModel;
 
   @override
   void initState() {
     super.initState();
+    // if (fScreen.popupTF = true) {
+    //   Future(() => fScreen.displayDialog(context));
+    // }
 
+    Future(() => fScreen.displayDialog(context));
     HomeScreen.loadData(false);
-    //frscreen.displayDialog(context);
   }
 
   @override
   Widget build(BuildContext context) {
+    //Future.delayed(Duration.zero, () => fScreen.displayDialog(context));
     return Scaffold(
       appBar: ResponsiveHelper.isDesktop(context) ? WebMenuBar() : null,
       backgroundColor: ResponsiveHelper.isDesktop(context)

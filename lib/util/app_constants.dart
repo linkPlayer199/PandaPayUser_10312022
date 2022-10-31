@@ -138,7 +138,7 @@ class AppConstants {
         languageCode: 'en'),
     LanguageModel(
         imageUrl: Images.arabic,
-        languageName: 'عربى',
+        languageName: 'اردو',
         countryCode: 'SA',
         languageCode: 'ar'),
   ];
